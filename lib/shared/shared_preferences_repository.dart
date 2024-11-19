@@ -70,6 +70,9 @@ class SharedPreferencesRepository implements DatabaseRepository {
 
   @override
   Future<int> get itemCount async {
+    while (writeActive) {
+      await Future.delayed(const Duration(milliseconds: 50));
+    }
     List<String>? myItems = await prefs.getStringList(tasklist_key);
     myItems ??= [];
 
